@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("docghifile")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+e9027997e62c040e97e3510113e6f901ebab2794")]
 [assembly: System.Reflection.AssemblyProductAttribute("docghifile")]
 [assembly: System.Reflection.AssemblyTitleAttribute("docghifile")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

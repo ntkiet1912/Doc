@@ -130,7 +130,7 @@ namespace docghifile.ViewModel
                     CsvFilePath = openFileDialog.FileName;
                     var csvData = File.ReadAllLines(CsvFilePath);
                     Data.Clear();
-
+                    _newdata.Clear();
                     foreach(var row in csvData.Skip(1))
                     {
                         var columns = row.Split(',');

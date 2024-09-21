@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "jv/NX12cVQg=",
+  "dgSpecHash": "61V0ZlnPd1c=",
   "success": true,
-  "projectFilePath": "D:\\WPF Tutorial\\docghifile\\docghifile.csproj",
+  "projectFilePath": "D:\\WPF Tutorial\\nopbai\\docghifile.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\pupgk\\.nuget\\packages\\communitytoolkit.mvvm\\8.3.2\\communitytoolkit.mvvm.8.3.2.nupkg.sha512",
     "C:\\Users\\pupgk\\.nuget\\packages\\microsoft.netcore.platforms\\1.1.0\\microsoft.netcore.platforms.1.1.0.nupkg.sha512",
