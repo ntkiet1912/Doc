@@ -1,11 +1,11 @@
 ﻿using System.Collections.ObjectModel;
-using System.Diagnostics;
 using System.IO;
-using System.Windows.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using docghifile.Model;
 using Microsoft.Win32;
+using CsvHelper;
+using System.Globalization;
 
 namespace docghifile.ViewModel
 {
@@ -23,15 +23,14 @@ namespace docghifile.ViewModel
             private string _csvFilePath;
             public ObservableCollection<MyData> Data { get; set; }
 
-            [ObservableProperty]
-            private ObservableCollection<MyData> _newdata;
+  
             [ObservableProperty]
             private MyData selectedData;
 
             public MainWindowViewModel()
             {
                 Data = new ObservableCollection<MyData>();
-                _newdata = new ObservableCollection<MyData>();
+                
             }
 
             [RelayCommand]
@@ -43,12 +42,7 @@ namespace docghifile.ViewModel
                     PhoneNumber = _phoneNumber,
                     Email = _email,
                 });
-                _newdata.Add(new MyData() {
-                    Name = _name,
-                    Tuoi = _tuoi,
-                    PhoneNumber = _phoneNumber,
-                    Email = _email,
-                });
+                
                 Name = string.Empty;
                 Tuoi = string.Empty;
                 PhoneNumber = string.Empty;
@@ -58,26 +52,7 @@ namespace docghifile.ViewModel
             [RelayCommand]
             public void Delete()
             {
-                if (selectedData != null && !string.IsNullOrEmpty(CsvFilePath))
-                {
-                    
-
-                    if (File.Exists(CsvFilePath))
-                    {
-                        var allLines = File.ReadAllLines(CsvFilePath).ToList();
-                        var lineToRemove = $"{selectedData.Name},{selectedData.Tuoi},{selectedData.PhoneNumber},{selectedData.Email}";
-                        allLines.Remove(lineToRemove);
-                        
-                        File.WriteAllLines(CsvFilePath, allLines);
-                        
-                    
-                    }
-                    Data.Remove(selectedData);
-                    _newdata.Remove(selectedData);
-                    selectedData = null;
-                }
-                
-                
+                Data.Remove(selectedData);
             }
             [RelayCommand]
             public void Save()
@@ -87,39 +62,14 @@ namespace docghifile.ViewModel
                 if (saveFileDialog.ShowDialog() == true)
                 {
                     string fileName = saveFileDialog.FileName;
-                    bool hasHeader = false;
-                    if (File.Exists(fileName))
+                    using (var writer = new StreamWriter(fileName))
+                    using (var csv = new CsvWriter(writer,CultureInfo.InvariantCulture))
                     {
-                        using(StreamReader reader = new StreamReader(fileName))
-                        {
-                            if (!reader.EndOfStream)
-                            {
-                                string firstLine = reader.ReadLine();
-                                if(firstLine == "Name,Age,PhoneNumber,Email")
-                                {
-                                    hasHeader = true;
-
-                                }
-                            }
-                        }
+                        csv.WriteRecords(Data);
                     }
-
-                    using (StreamWriter writer = new StreamWriter(saveFileDialog.FileName,true))
-                    {
-
-
-                        if (!hasHeader) writer.WriteLine("Name,Age,PhoneNumber,Email");
-                    
-                    
-                        foreach (MyData data in _newdata)
-                        {
-                            writer.WriteLine($"{data.Name},{data.Tuoi},{data.PhoneNumber},{data.Email}");
-                        }
-                        _newdata.Clear();
-                    }
+                Data.Clear();
                 }
             }
-        
             [RelayCommand]
             public void LoadCsv()
             {
@@ -128,19 +78,15 @@ namespace docghifile.ViewModel
                 if (openFileDialog.ShowDialog() == true)
                 {
                     CsvFilePath = openFileDialog.FileName;
-                    var csvData = File.ReadAllLines(CsvFilePath);
-                    Data.Clear();
-                    _newdata.Clear();
-                    foreach(var row in csvData.Skip(1))
+                    using (var reader = new StreamReader(CsvFilePath))
+                    using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
                     {
-                        var columns = row.Split(',');
-                        Data.Add(new MyData
+                        var records = csv.GetRecords<MyData>().ToList();
+                        Data.Clear();
+                        foreach(var record in records)
                         {
-                            Name = columns[0],
-                            Tuoi = columns[1],
-                            PhoneNumber = columns[2],
-                            Email = columns[3]
-                        });
+                            Data.Add(record);
+                        }
                     }
                 }
          }
