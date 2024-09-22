@@ -59,7 +59,7 @@
                         Header="Name" />
                     <DataGridTextColumn
                         Width="1*"
-                        Binding="{Binding Tuoi}"
+                        Binding="{Binding Age}"
                         Header="Age" />
                     <DataGridTextColumn
                         Width="3*"
@@ -75,7 +75,7 @@
                 <Label Content="Username" />
                 <TextBox Margin="5,0,5,15" Text="{Binding Name, UpdateSourceTrigger=PropertyChanged}" />
                 <Label Content="Age" />
-                <TextBox Margin="5,0,5,15" Text="{Binding Tuoi, UpdateSourceTrigger=PropertyChanged}" />
+                <TextBox Margin="5,0,5,15" Text="{Binding Age, UpdateSourceTrigger=PropertyChanged}" />
                 <Label Content="Phone Number" />
                 <TextBox Margin="5,0,5,15" Text="{Binding PhoneNumber, UpdateSourceTrigger=PropertyChanged}" />
                 <Label Content="Email" />

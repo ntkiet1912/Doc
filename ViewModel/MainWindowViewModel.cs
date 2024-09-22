@@ -14,14 +14,15 @@ namespace docghifile.ViewModel
             [ObservableProperty]
             private string _name;
             [ObservableProperty]
-            private string _tuoi;
+            private string _age;
             [ObservableProperty]
             private string _phoneNumber;
             [ObservableProperty]
             private string _email;
             [ObservableProperty]
             private string _csvFilePath;
-            public ObservableCollection<MyData> Data { get; set; }
+            [ObservableProperty]
+            public ObservableCollection<MyData> data = new ObservableCollection<MyData>();
 
   
             [ObservableProperty]
@@ -29,8 +30,7 @@ namespace docghifile.ViewModel
 
             public MainWindowViewModel()
             {
-                Data = new ObservableCollection<MyData>();
-                
+         
             }
 
             [RelayCommand]
@@ -38,13 +38,13 @@ namespace docghifile.ViewModel
             {
                 Data.Add(new MyData() {
                     Name = _name,
-                    Tuoi = _tuoi,
+                    Age = _age,
                     PhoneNumber = _phoneNumber,
                     Email = _email,
                 });
                 
                 Name = string.Empty;
-                Tuoi = string.Empty;
+                Age = string.Empty;
                 PhoneNumber = string.Empty;
                 Email = string.Empty;
 
@@ -82,11 +82,7 @@ namespace docghifile.ViewModel
                     using (var csv = new CsvReader(reader, CultureInfo.InvariantCulture))
                     {
                         var records = csv.GetRecords<MyData>().ToList();
-                        Data.Clear();
-                        foreach(var record in records)
-                        {
-                            Data.Add(record);
-                        }
+                        Data = new ObservableCollection<MyData>(records);
                     }
                 }
          }

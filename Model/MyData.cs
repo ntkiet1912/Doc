@@ -6,7 +6,7 @@ namespace docghifile.Model
         [ObservableProperty]
         private string _name;
         [ObservableProperty]
-        private string _tuoi;
+        private string _age;
         [ObservableProperty]
         private string _phoneNumber;
         [ObservableProperty]
